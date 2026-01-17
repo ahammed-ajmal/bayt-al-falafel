@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Panel - Bayt Al Falafel</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <h1>Admin Login</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="adminEmail">Email</label>
+                    <input type="email" id="adminEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <div id="loginError" class="error-message" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="admin-dashboard" style="display: none;">
+        <header class="admin-header">
+            <h1>Bayt Al Falafel - Admin Panel</h1>
+            <button id="logoutBtn" class="btn-logout">Logout</button>
+        </header>
+
+        <nav class="admin-nav">
+            <button class="nav-btn active" data-section="menu">Menu Management</button>
+            <button class="nav-btn" data-section="branches">Branch Management</button>
+            <button class="nav-btn" data-section="analytics">Analytics</button>
+        </nav>
+
+        <main class="admin-content">
+            <!-- Menu Management Section -->
+            <section id="menuSection" class="admin-section active">
+                <h2>Menu Management</h2>
+                <button class="btn-add" id="addMenuItemBtn">+ Add Menu Item</button>
+
+                <div class="menu-items-list" id="menuItemsList">
+                    <div class="loading">Loading menu items...</div>
+                </div>
+
+                <!-- Add/Edit Menu Item Modal -->
+                <div id="menuItemModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="modal-close" id="closeMenuItemModal">&times;</span>
+                        <h3 id="modalTitle">Add Menu Item</h3>
+                        <form id="menuItemForm">
+                            <div class="form-group">
+                                <label>Name (Arabic)</label>
+                                <input type="text" id="itemNameAr" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name (English)</label>
+                                <input type="text" id="itemNameEn" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Price (SAR)</label>
+                                <input type="number" id="itemPrice" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select id="itemType" required>
+                                    <option value="sandwich">Sandwich</option>
+                                    <option value="meal">Meal</option>
+                                    <option value="side">Side</option>
+                                    <option value="drink">Drink</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Image URL (optional)</label>
+                                <input type="url" id="itemImageUrl" placeholder="https://example.com/image.jpg">
+                                <small style="color: #666; display: block; margin-top: 0.25rem;">Enter full URL to menu
+                                    item image</small>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="itemAvailable" checked>
+                                    Available (In Stock)
+                                </label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary">Save</button>
+                                <button type="button" class="btn-secondary" id="cancelMenuItemBtn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Branch Management Section -->
+            <section id="branchesSection" class="admin-section">
+                <h2>Branch Management</h2>
+                <button class="btn-add" id="addBranchBtn">+ Add Branch</button>
+
+                <div class="branches-list" id="branchesList">
+                    <div class="loading">Loading branches...</div>
+                </div>
+
+                <!-- Add/Edit Branch Modal -->
+                <div id="branchModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="modal-close" id="closeBranchModal">&times;</span>
+                        <h3 id="branchModalTitle">Add Branch</h3>
+                        <form id="branchForm">
+                            <div class="form-group">
+                                <label>Branch Name</label>
+                                <input type="text" id="branchName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea id="branchAddress" rows="2" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Google Maps Link</label>
+                                <input type="url" id="branchMapLink" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone / WhatsApp Number</label>
+                                <input type="tel" id="branchPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Working Hours</label>
+                                <input type="text" id="branchHours" placeholder="e.g., 9:00 AM - 11:00 PM" required>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="branchActive">
+                                    Active (Receive WhatsApp Orders)
+                                </label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary">Save</button>
+                                <button type="button" class="btn-secondary" id="cancelBranchBtn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analyticsSection" class="admin-section">
+                <h2>Order Analytics</h2>
+
+                <div class="analytics-filters">
+                    <select id="analyticsPeriod">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Total Orders</h3>
+                        <p class="analytics-value" id="totalOrders">0</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Peak Hour</h3>
+                        <p class="analytics-value" id="peakHour">-</p>
+                    </div>
+                </div>
+
+                <div class="analytics-charts">
+                    <div class="chart-card">
+                        <h3>Most Ordered Items</h3>
+                        <div id="topItemsChart" class="chart-content">
+                            <div class="loading">Loading data...</div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Orders by Branch</h3>
+                        <div id="ordersByBranchChart" class="chart-content">
+                            <div class="loading">Loading data...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="admin.js"></script>
+</body>
+
+</html>

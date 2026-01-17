@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="بيت الفلافل - مطعم فلافل أصيل في جدة، المملكة العربية السعودية">
+    <meta name="theme-color" content="#8B4513">
+    <title>بيت الفلافل - Bayt Al Falafel</title>
+    <link rel="stylesheet" href="css/order.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">بيت الفلافل</h1>
+                <div class="header-controls">
+                    <a href="/" class="home-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <button class="lang-toggle" id="langToggle" aria-label="Switch Language">
+                        <span class="lang-ar">EN</span>
+                        <span class="lang-en" style="display: none;">AR</span>
+                    </button>
+                    <a href="/admin.html" class="admin-link" id="adminLink" style="display: none;">Admin</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Branch Selector -->
+    <section class="branch-selector-section">
+        <div class="container">
+            <label for="branchSelect" class="branch-label">
+                <span data-ar="اختر الفرع" data-en="Select Branch">اختر الفرع</span>
+            </label>
+            <select id="branchSelect" class="branch-select">
+                <option value="" data-ar="جاري التحميل..." data-en="Loading...">جاري التحميل...</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Branch Info -->
+    <section class="branch-info" id="branchInfo" style="display: none;">
+        <div class="container">
+            <div class="branch-details">
+                <h2 id="branchName"></h2>
+                <p id="branchAddress"></p>
+                <p id="branchHours"></p>
+                <a id="branchMapLink" href="#" target="_blank" class="map-link">
+                    <span data-ar="عرض على الخريطة" data-en="View on Map">عرض على الخريطة</span>
+                </a>
+            </div>
+            <div class="branch-map" id="branchMap">
+                <div class="location-map">
+                    <iframe src="https://maps.google.com/maps?q=المريخ+وادي+مريخ+جدة&output=embed" width="100%"
+                        height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section">
+        <div class="container">
+            <h2 class="section-title" data-ar="قائمة الطعام" data-en="Menu">قائمة الطعام</h2>
+            <div class="menu-grid" id="menuGrid">
+                <div class="loading" data-ar="جاري التحميل..." data-en="Loading...">جاري التحميل...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section class="cart-section" id="cartSection" style="display: none;">
+        <div class="container">
+            <h2 class="section-title" data-ar="سلة الطلبات" data-en="Order Cart">سلة الطلبات</h2>
+            <div class="cart-items" id="cartItems"></div>
+            <div class="cart-total">
+                <strong data-ar="المجموع:" data-en="Total:">المجموع:</strong>
+                <span id="cartTotal">0</span>
+                <span data-ar="ريال" data-en="SAR">ريال</span>
+            </div>
+            <div class="cart-notes">
+                <label for="orderNotes" data-ar="ملاحظات (اختياري)" data-en="Notes (optional)">ملاحظات (اختياري)</label>
+                <textarea id="orderNotes" rows="3" placeholder=""></textarea>
+            </div>
+            <button class="btn-order" id="orderBtn">
+                <span data-ar="اطلب عبر واتساب" data-en="Order via WhatsApp">اطلب عبر واتساب</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p data-ar="© 2024 بيت الفلافل. جميع الحقوق محفوظة." data-en="© 2024 Bayt Al Falafel. All rights reserved.">
+                © 2024 بيت الفلافل. جميع الحقوق محفوظة.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
