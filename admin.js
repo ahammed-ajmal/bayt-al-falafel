@@ -141,7 +141,7 @@ function loadMenuItems() {
             
             menuItemsList.innerHTML = snapshot.docs.map(doc => {
                 const item = doc.data();
-                const itemImage = item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.nameAr}" class="admin-item-image" onerror="this.style.display='none';">` : '';
+                const itemImage = `<img src="${item.imageUrl || 'images/fresh-falafel.jpg'}" alt="${item.nameAr}" class="admin-item-image" onerror="this.src='images/fresh-falafel.jpg'">`;
                 return `
                     <div class="menu-item-card">
                         ${itemImage}

@@ -294,7 +294,7 @@ function renderMenu() {
                 const cartItem = cart.find(ci => ci.id === item.id);
                 const quantity = cartItem ? cartItem.quantity : 0;
 
-                const itemImage = item.imageUrl ? `<img src="${item.imageUrl}" alt="${name}" class="menu-item-image" onerror="this.style.display='none';">` : '';
+                const itemImage = `<img src="${item.imageUrl || 'images/fresh-falafel.jpg'}" alt="${name}" class="menu-item-image" onerror="this.src='images/fresh-falafel.jpg'">`;
 
                 return `
                     <div class="menu-item ${!item.available ? 'out-of-stock' : ''}">
